@@ -1,8 +1,13 @@
 import FallbackStorage from "./storage";
 
 class FallbackLocalStorage {
-
-  constructor(debug = false) {
+  /**
+   * @constructor
+   * @param {boolean=false} debug
+   * @param {boolean=true} iterable
+   * @param {boolean=false} autoSerialize
+   */
+  constructor(debug = false, iterable = true, autoSerialize = false) {
     Object.defineProperty(this, "name", {
       value: "FallbackLocalStorage",
       writable: false,
@@ -15,30 +20,43 @@ class FallbackLocalStorage {
       configurable: false,
       enumerable: false,
     });
+    Object.defineProperty(this, "iterable", {
+      value: !!iterable,
+      writable: false,
+      configurable: false,
+      enumerable: false,
+    });
+    Object.defineProperty(this, "serialize", {
+      value: !!autoSerialize,
+      writable: false,
+      configurable: false,
+      enumerable: false,
+    });
     Object.defineProperty(this, "version", {
-      value: "0.0.4",
+      value: "0.0.6",
       writable: false,
       configurable: false,
       enumerable: false,
     });
     let storage = {};
+    const storagesAvailable = FallbackLocalStorage.getStorage();
     switch (true) {
-      case typeof localStorage !== "undefined":
+      case storagesAvailable.indexOf("localStorage") > -1:
         storage = localStorage;
         if (this.debug) {
-          console.info("FallbackLocalStorage. Start using [window.localStorage].");
+          console.info("FallbackLocalStorage. Start using [localStorage].");
         }
         break;
-      case typeof sessionStorage !== "undefined":
+      case storagesAvailable.indexOf("sessionStorage") > -1:
         storage = sessionStorage;
         if (this.debug) {
-          console.warn("FallbackLocalStorage. Start using [window.sessionStorage].");
+          console.warn("FallbackLocalStorage. Start using [sessionStorage].");
         }
         break;
       default:
         storage = new FallbackStorage;
         if (this.debug) {
-          console.warn("FallbackLocalStorage. Start using [FallbackStorage].");
+          console.warn("FallbackLocalStorage. Start using [fallbackStorage].");
         }
         break;
     }
@@ -48,6 +66,29 @@ class FallbackLocalStorage {
       configurable: false,
       enumerable: false,
     });
+  }
+
+  /**
+   * @returns {Array}
+   */
+  static getStorage() {
+    const storage = [];
+    if (typeof localStorage !== "undefined") {
+      try {
+        localStorage.setItem("", "");
+        storage.push("localStorage");
+      } catch (error) {
+      }
+    }
+    if (typeof sessionStorage !== "undefined") {
+      try {
+        sessionStorage.setItem("", "");
+        storage.push("sessionStorage");
+      } catch (error) {
+      }
+    }
+    storage.push("fallbackStorage");
+    return storage;
   }
 
   toString() {
@@ -80,7 +121,9 @@ ${error}`;
         console.warn(returnState);
       }
     }
-    this[name] = `${value}`;
+    if (this.iterable) {
+      this[name] = `${value}`;
+    }
     return returnState;
   }
 
@@ -92,12 +135,16 @@ ${error}`;
   }
 
   removeItem(name) {
-    delete this[name];
+    if (this.iterable) {
+      delete this[name];
+    }
     this._storage.removeItem(name);
   }
 
   clear() {
-    Object.keys(this).forEach((name) => delete this[name]);
+    if (this.iterable) {
+      Object.keys(this).forEach((name) => delete this[name]);
+    }
     this._storage.clear();
   }
 

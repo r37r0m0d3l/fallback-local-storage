@@ -28,7 +28,8 @@
     "no-alert": 0,
     "no-undef": 2,
     "no-unused-vars": [1, {"vars": "local", "args": "none"}],
-    "no-console": 0
+    "no-console": 0,
+    "no-empty": 0
   },
   "globals" : {
     "document": false,
