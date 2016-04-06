@@ -73,19 +73,25 @@ class FallbackLocalStorage {
    */
   static getStorage() {
     const storage = [];
-    if (typeof localStorage !== "undefined") {
-      try {
-        localStorage.setItem("", "");
-        storage.push("localStorage");
-      } catch (error) {
+    try {
+      if (typeof localStorage !== "undefined") {
+        try {
+          localStorage.setItem("", "");
+          storage.push("localStorage");
+        } catch (error) {
+        }
       }
+    } catch (error) {
     }
-    if (typeof sessionStorage !== "undefined") {
-      try {
-        sessionStorage.setItem("", "");
-        storage.push("sessionStorage");
-      } catch (error) {
+    try {
+      if (typeof sessionStorage !== "undefined") {
+        try {
+          sessionStorage.setItem("", "");
+          storage.push("sessionStorage");
+        } catch (error) {
+        }
       }
+    } catch (error) {
     }
     storage.push("fallbackStorage");
     return storage;
