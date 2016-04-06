@@ -33,7 +33,7 @@ class FallbackLocalStorage {
       enumerable: false,
     });
     Object.defineProperty(this, "version", {
-      value: "0.0.6",
+      value: "0.0.8",
       writable: false,
       configurable: false,
       enumerable: false,

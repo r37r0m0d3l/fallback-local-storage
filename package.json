@@ -1,6 +1,6 @@
 {
   "name": "fallback-local-storage",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "Fallback for browser LocalStorage",
   "main": "./index.js",
   "scripts": {

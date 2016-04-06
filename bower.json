@@ -46,7 +46,7 @@
     "localstorage"
   ],
   "license": "MIT",
-  "main": "./index.js",
+  "main": "dist/fallback-local-storage.web.js",
   "moduleType": [
     "globals",
     "amd",
@@ -54,5 +54,5 @@
     "node"
   ],
   "name": "fallback-local-storage",
-  "version": "0.0.7"
+  "version": "0.0.8"
 }
