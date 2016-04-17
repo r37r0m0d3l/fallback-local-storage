@@ -72,16 +72,35 @@ function getBaseConfig(isProd) {
 
   // generate webpack base config
   return {
-    entry: path.join(__dirname, libraryEntryPoint),
+    entry: ["babel-polyfill", path.join(__dirname, libraryEntryPoint)],
     output: {
       devtoolLineToLine: true,
+      pathinfo: true,
     },
     module: {
       preLoaders: [
-        {test: /\.js$/, exclude: /(node_modules|bower_components)/, loader: "eslint-loader"}
+        {
+          test: /\.js$/,
+          exclude: /(node_modules|bower_components)/,
+          loader: "eslint-loader",
+        },
       ],
       loaders: [
-        {test: /\.js$/, exclude: /(node_modules|bower_components)/, loader: "babel-loader"},
+        {
+          exclude: /(node_modules|bower_components)/,
+          loader: "babel-loader",
+          plugins: ["transform-runtime"],
+          query: {
+            presets: [
+              "es2015",
+              "stage-0",
+              "stage-1",
+              "stage-2",
+            ],
+            cacheDirectory: false,
+          },
+          test: /\.js$/,
+        },
       ]
     },
     eslint: {

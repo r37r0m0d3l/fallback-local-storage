@@ -1,3 +1,6 @@
+/**
+ * A fallback interface imitation of the Web Storage API.
+ */
 class FallbackStorage {
 
   constructor() {
@@ -57,6 +60,18 @@ class FallbackStorage {
 
   entries() {
     return Object.entries(this._data);
+  }
+
+  toString() {
+    return JSON.stringify(this._data);
+  }
+
+  valueOf() {
+    return this._data;
+  }
+
+  toJSON() {
+    return this._data;
   }
 }
 
