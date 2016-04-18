@@ -1,4 +1,9 @@
 {
-    "plugins": ["babel-plugin-add-module-exports"],
-    "presets": ["es2015"]
+    "plugins": [
+      "babel-plugin-add-module-exports",
+      "transform-runtime"
+    ],
+    "presets": [
+      "es2015", "stage-0", "stage-1", "stage-2"
+    ]
 }

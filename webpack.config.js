@@ -72,7 +72,10 @@ function getBaseConfig(isProd) {
 
   // generate webpack base config
   return {
-    entry: ["babel-polyfill", path.join(__dirname, libraryEntryPoint)],
+    entry: [
+      // "babel-polyfill",
+      path.join(__dirname, libraryEntryPoint),
+    ],
     output: {
       devtoolLineToLine: true,
       pathinfo: true,
@@ -89,7 +92,9 @@ function getBaseConfig(isProd) {
         {
           exclude: /(node_modules|bower_components)/,
           loader: "babel-loader",
-          plugins: ["transform-runtime"],
+          plugins: [
+            "transform-runtime"
+          ],
           query: {
             presets: [
               "es2015",

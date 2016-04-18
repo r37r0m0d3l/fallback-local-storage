@@ -2,6 +2,8 @@ import FallbackStorage from "./storage";
 import Serializer from "./serializer";
 
 class FallbackLocalStorage {
+  static NAME = "FallbackLocalStorage";
+  static VERSION = "0.0.10";
   /**
    * @constructor
    * @param {boolean=false} debug
@@ -10,12 +12,6 @@ class FallbackLocalStorage {
    * @param {Function|Object=} CustomSerializer
    */
   constructor(debug = false, iterable = false, autoSerialize = false, CustomSerializer) {
-    Object.defineProperty(this, "name", {
-      value: "FallbackLocalStorage",
-      writable: false,
-      configurable: false,
-      enumerable: false,
-    });
     Object.defineProperty(this, "_debug", {
       value: !!debug,
       writable: true,
@@ -30,12 +26,6 @@ class FallbackLocalStorage {
     });
     Object.defineProperty(this, "_serialize", {
       value: !!autoSerialize,
-      writable: false,
-      configurable: false,
-      enumerable: false,
-    });
-    Object.defineProperty(this, "version", {
-      value: "0.0.9",
       writable: false,
       configurable: false,
       enumerable: false,
@@ -129,14 +119,14 @@ class FallbackLocalStorage {
    * @param {*} defaults - default value to return
    * @returns {*}
    */
-  getItem(name, defaults) {
+  getItem(name, defaults = null) {
     if (!this.hasItem(name)) {
-      return arguments.length > 1 ? defaults : null;
+      return defaults;
     }
     if (!this._serialize) {
       return this._storage.getItem(name);
     }
-    this._serializer.deserialize(this._storage.getItem(name));
+    return this._serializer.deserialize(this._storage.getItem(name));
   }
 
   setItem(name, value) {
