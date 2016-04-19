@@ -1,5 +1,6 @@
 /**
  * Trying to parse or stringify JSON, do not throws errors
+ * @class Serializer
  */
 class Serializer {
   constructor(debug = false) {

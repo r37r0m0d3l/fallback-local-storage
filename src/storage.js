@@ -1,5 +1,6 @@
 /**
  * A fallback interface imitation of the Web Storage API.
+ * @class FallbackStorage
  */
 class FallbackStorage {
 

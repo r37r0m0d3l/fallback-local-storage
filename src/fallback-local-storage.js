@@ -1,13 +1,25 @@
 import FallbackStorage from "./storage";
 import Serializer from "./serializer";
 
+/**
+ * @class FallbackLocalStorage
+ */
 class FallbackLocalStorage {
+  /**
+   * @type {string}
+   * @static
+   */
   static NAME = "FallbackLocalStorage";
-  static VERSION = "0.0.10";
+  /**
+   * @type {string}
+   * @static
+   */
+  static VERSION = "0.0.11";
+
   /**
    * @constructor
    * @param {boolean=false} debug
-   * @param {boolean=true} iterable
+   * @param {boolean=false} iterable
    * @param {boolean=false} autoSerialize
    * @param {Function|Object=} CustomSerializer
    */
@@ -76,8 +88,9 @@ class FallbackLocalStorage {
   }
 
   /**
-   * Return list of available storage
+   * Return list of available storage.
    * @returns {Array}
+   * @static
    */
   static getStorage() {
     const storage = [];
@@ -105,16 +118,22 @@ class FallbackLocalStorage {
     return storage;
   }
 
+  /**
+   * @returns {string}
+   */
   toString() {
     return JSON.stringify(this._storage);
   }
 
+  /**
+   * @returns {string}
+   */
   toStringTag() {
     return this.toString();
   }
 
   /**
-   * When passed a key name, will return that key's value
+   * When passed a key name, will return that key's value.
    * @param {string} name - the name of the key you want to retrieve the value of
    * @param {*} defaults - default value to return
    * @returns {*}
@@ -129,13 +148,22 @@ class FallbackLocalStorage {
     return this._serializer.deserialize(this._storage.getItem(name));
   }
 
+  /**
+   * When passed a key name and value, will add that key to the storage,
+   * or update that key's value if it already exists.
+   * @param {string} name - a string containing the name of the key you want to create/update
+   * @param {*} value - value you want to give the key you are creating/updating
+   * @returns {boolean} - is operation was successful
+   */
   setItem(name, value) {
     let setValue;
     if (this._serialize) {
       setValue = this._serializer.serialize(value);
-    } else if (this._debug && typeof value !== "string") {
-      console.warn(`Value for key "${name}" will be converted to string:\n"${value}"`);
-      setValue = value;
+    } else {
+      if (this._debug && typeof value !== "string") {
+        console.warn(`Value for key "${name}" will be converted to string:\n"${value}"`);
+      }
+      setValue = `${value}`;
     }
     let returnState = true;
     try {
@@ -147,11 +175,16 @@ class FallbackLocalStorage {
       }
     }
     if (this._iterable) {
-      this[name] = `${setValue}`;
+      this[name] = setValue;
     }
     return returnState;
   }
 
+  /**
+   * Checks if key exists in storage.
+   * @param {string} name
+   * @returns {boolean}
+   */
   hasItem(name) {
     if (typeof this._storage.hasItem === "function") {
       return this._storage.hasItem(name);
@@ -159,6 +192,10 @@ class FallbackLocalStorage {
     return ((name in this._storage) && !(name in Storage.prototype));
   }
 
+  /**
+   * When passed a key name, will remove that key from the storage.
+   * @param {string} name
+   */
   removeItem(name) {
     if (this._iterable) {
       delete this[name];
@@ -166,6 +203,9 @@ class FallbackLocalStorage {
     this._storage.removeItem(name);
   }
 
+  /**
+   * When invoked, will empty all keys out of the storage.
+   */
   clear() {
     if (this._iterable) {
       Object.keys(this).forEach((name) => delete this[name]);
@@ -173,6 +213,12 @@ class FallbackLocalStorage {
     this._storage.clear();
   }
 
+  /**
+   * When passed one argument - return value by key.
+   * When passed two arguments - set value by key and return saved value.
+   * @param {*} args
+   * @returns {*}
+   */
   item(...args) {
     if (!args.length || args.length > 2) {
       return null;
@@ -185,6 +231,7 @@ class FallbackLocalStorage {
   }
 
   /**
+   * Returns the array of keys saved in storage.
    * @returns {Array}
    */
   keys() {
@@ -195,6 +242,7 @@ class FallbackLocalStorage {
   }
 
   /**
+   * Returns the array of values saved in storage.
    * @returns {Array}
    */
   values() {
@@ -214,7 +262,7 @@ class FallbackLocalStorage {
   }
 
   /**
-   * Returns an array of [key, value] pairs
+   * Returns an array of [key, value] pairs.
    * @returns {Iterator.<*>}
    */
   entries() {
@@ -239,7 +287,7 @@ class FallbackLocalStorage {
   }
 
   /**
-   * Executes a provided function once per array element
+   * Executes a provided function once per array element.
    * @param {Function} callback
    * @param {Object=} thisArg
    */
@@ -258,7 +306,7 @@ class FallbackLocalStorage {
   }
 
   /**
-   * Returns an integer representing the number of data items stored in the object
+   * Returns an integer representing the number of data items stored in the object.
    * @returns {Number}
    */
   get length() {
