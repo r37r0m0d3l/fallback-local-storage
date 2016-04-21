@@ -14,7 +14,7 @@ class FallbackLocalStorage {
    * @type {string}
    * @static
    */
-  static VERSION = "0.0.11";
+  static VERSION = "0.0.12";
 
   /**
    * @constructor
@@ -211,6 +211,32 @@ class FallbackLocalStorage {
       Object.keys(this).forEach((name) => delete this[name]);
     }
     this._storage.clear();
+  }
+
+  /**
+   * Returns the name of the nth key in the storage. This is a zero-based index.
+   * @param key An integer representing the number of the key you want to get the name of.
+   * @returns {*}
+   */
+  key(key) {
+    if (!this._serialize) {
+      if (typeof this._storage.key === "function") {
+        return this._storage.key(key);
+      }
+      if (key in this.values()) {
+        return this.values()[key];
+      }
+      return null;
+    }
+    let value = null;
+    if (typeof this._storage.key === "function") {
+      value = this._storage.key(key);
+    } else {
+      if (key in this.values()) {
+        value = this.values()[key];
+      }
+    }
+    return this._serializer.deserialize(value);
   }
 
   /**
