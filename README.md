@@ -4,9 +4,9 @@ Fallback Local Storage
 > Universal localStorage fallback
 
 [![Version](http://img.shields.io/npm/v/fallback-local-storage.svg)](https://www.npmjs.org/package/fallback-local-storage)
-[![Build Status](https://travis-ci.org/p54l0m5h1k/fallback-local-storage.svg?branch=master)](https://travis-ci.org/p54l0m5h1k/fallback-local-storage)
-[![Dependency Status](https://david-dm.org/jscs-dev/node-jscs.svg?theme=shields.io&style=flat)](https://david-dm.org/p54l0m5h1k/fallback-local-storage)
-[![devDependency Status](https://david-dm.org/jscs-dev/node-jscs/dev-status.svg?theme=shields.io&style=flat)](https://david-dm.org/p54l0m5h1k/fallback-local-storage#info=devDependencies)
+[![Build Status](https://travis-ci.org/r37r0m0d3l/fallback-local-storage.svg?branch=master)](https://travis-ci.org/r37r0m0d3l/fallback-local-storage)
+[![Dependency Status](https://david-dm.org/jscs-dev/node-jscs.svg?theme=shields.io&style=flat)](https://david-dm.org/r37r0m0d3l/fallback-local-storage)
+[![devDependency Status](https://david-dm.org/jscs-dev/node-jscs/dev-status.svg?theme=shields.io&style=flat)](https://david-dm.org/r37r0m0d3l/fallback-local-storage#info=devDependencies)
 [![Code style: airbnb](https://img.shields.io/badge/code%20style-airbnb-blue.svg?style=flat)](https://github.com/airbnb/javascript)
 
 ### Install

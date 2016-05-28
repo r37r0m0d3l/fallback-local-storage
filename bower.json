@@ -1,12 +1,12 @@
 {
   "author": {
     "name": "Anton Trofimenko",
-    "url": "https://github.com/p54l0m5h1k"
+    "url": "https://github.com/r37r0m0d3l"
   },
   "dependencies": {},
   "description": "Fallback for browser LocalStorage",
   "devDependencies": {},
-  "homepage": "https://github.com/p54l0m5h1k/fallback-local-storage",
+  "homepage": "https://github.com/r37r0m0d3l/fallback-local-storage",
   "ignore": [
     "**/.*",
     "node_modules",
@@ -29,5 +29,5 @@
     "node"
   ],
   "name": "fallback-local-storage",
-  "version": "0.0.12"
+  "version": "0.0.13"
 }
