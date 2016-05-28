@@ -343,6 +343,7 @@ class FallbackLocalStorage {
    * @param {Number} value
    */
   set length(value) {
+    return this.keys().length;
   }
 }
 module.exports = FallbackLocalStorage;
