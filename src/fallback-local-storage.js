@@ -14,7 +14,7 @@ class FallbackLocalStorage {
    * @type {string}
    * @static
    */
-  static VERSION = "0.0.13";
+  static VERSION = "0.0.14";
 
   /**
    * @constructor
@@ -289,7 +289,7 @@ class FallbackLocalStorage {
 
   /**
    * Returns an array of [key, value] pairs.
-   * @returns {Iterator.<*>}
+   * @returns {Array.<*>}
    */
   entries() {
     if (!this._serialize) {
