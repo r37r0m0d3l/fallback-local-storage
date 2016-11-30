@@ -14,7 +14,7 @@ class FallbackLocalStorage {
    * @type {string}
    * @static
    */
-  static VERSION = "0.0.14";
+  static VERSION = "0.0.15";
 
   /**
    * @constructor
@@ -73,7 +73,7 @@ class FallbackLocalStorage {
         }
         break;
       default:
-        storage = new FallbackStorage;
+        storage = new FallbackStorage();
         if (this._debug) {
           console.warn("FallbackLocalStorage. Start using [fallbackStorage].");
         }
@@ -208,7 +208,7 @@ class FallbackLocalStorage {
    */
   clear() {
     if (this._iterable) {
-      Object.keys(this).forEach((name) => delete this[name]);
+      Object.keys(this).forEach(name => delete this[name]);
     }
     this._storage.clear();
   }
@@ -231,10 +231,8 @@ class FallbackLocalStorage {
     let value = null;
     if (typeof this._storage.key === "function") {
       value = this._storage.key(key);
-    } else {
-      if (key in this.values()) {
-        value = this.values()[key];
-      }
+    } else if (key in this.values()) {
+      value = this.values()[key];
     }
     return this._serializer.deserialize(value);
   }
@@ -284,7 +282,7 @@ class FallbackLocalStorage {
     } else {
       values = Object.values(this._storage);
     }
-    return values.map((value) => this._serializer.deserialize(value));
+    return values.map(value => this._serializer.deserialize(value));
   }
 
   /**
