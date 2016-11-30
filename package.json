@@ -5,7 +5,7 @@
   "main": "./index.js",
   "scripts": {
     "prepublish": "npm run build-all",
-    "preversion": "npm run build-all && npm run unit",
+    "preversion": "npm run build-all",
     "version": "git add .",
     "postversion": "git push && git push --tags",
     "build": "gulp build",
@@ -63,7 +63,7 @@
     "eslint-config-airbnb": "^13.0.0",
     "eslint-loader": "^1.6.1",
     "eslint-plugin-import": "^2.2.0",
-    "eslint-plugin-jsx-a11y": "^3.0.1",
+    "eslint-plugin-jsx-a11y": "^2.2.3",
     "eslint-plugin-react": "^6.7.1",
     "eslint-plugin-standard": "^2.0.1",
     "gulp": "^3.9.1",

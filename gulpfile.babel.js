@@ -35,7 +35,7 @@ gulp.task('build-web-dev', ['webpack:build-web-dev'], () => {
 });
 
 // Run Babel only
-gulp.task('build-babel', ['clean', 'lint'], () => 
+gulp.task('build-babel', ['clean'/*, 'lint'*/], () =>
   gulp.src([sources])
     .pipe($.babel())
     // Output files
