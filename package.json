@@ -1,6 +1,6 @@
 {
   "name": "fallback-local-storage",
-  "version": "0.0.15",
+  "version": "0.0.16",
   "description": "Fallback for browser LocalStorage",
   "main": "./index.js",
   "scripts": {
@@ -84,5 +84,9 @@
     "dist-web": "fallback-local-storage.web.js",
     "bundle-node": true
   },
-  "dependencies": {}
+  "dependencies": {
+    "json3": "3.3.2",
+    "lodash.clonedeep": "4.5.0",
+    "system.global": "2.0.0"
+  }
 }

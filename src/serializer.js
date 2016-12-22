@@ -1,8 +1,11 @@
+import * as JSON3 from 'json3';
+
 /**
  * Trying to parse or stringify JSON, do not throws errors
  * @class Serializer
  */
 class Serializer {
+
   constructor(debug = false) {
     Object.defineProperty(this, "_debug", {
       value: !!debug,
@@ -37,7 +40,7 @@ class Serializer {
       return result;
     }
     try {
-      result = JSON.parse(value);
+      result = JSON3.parse(value);
     } catch (exception) {
       if (this._debug) {
         console.warn("Unable to parse serialized data");
@@ -48,12 +51,14 @@ class Serializer {
     return result;
   }
 
+  // noinspection Eslint
   /**
    * @param {*} value
    * @returns {string}
    */
   serialize(value) {
-    return JSON.stringify(value);
+    return JSON3.stringify(value);
   }
+
 }
 module.exports = Serializer;

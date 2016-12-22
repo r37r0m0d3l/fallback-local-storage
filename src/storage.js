@@ -1,3 +1,6 @@
+import * as JSON3 from 'json3';
+import cloneDeep from 'lodash.clonedeep';
+
 /**
  * A fallback interface imitation of the Web Storage API.
  * @class FallbackStorage
@@ -12,18 +15,18 @@ class FallbackStorage {
     if (!key) {
       return;
     }
-    this._data[key] = `${value}`;
+    this._data[`${key}`] = `${value}`;
   }
 
   getItem(key) {
     if (key in this._data) {
-      return this._data[key];
+      return cloneDeep(this._data[key]);
     }
     return null;
   }
 
   hasItem(key) {
-    return key in this._data;
+    return (key in this._data);
   }
 
   removeItem(key) {
@@ -35,7 +38,7 @@ class FallbackStorage {
   key(key) {
     const keys = Object.keys(this._data);
     if (key in keys) {
-      return keys[key];
+      return cloneDeep(keys[key]);
     }
     return null;
   }
@@ -57,23 +60,23 @@ class FallbackStorage {
   }
 
   values() {
-    return Object.values(this._data);
+    return Object.values(cloneDeep(this._data));
   }
 
   entries() {
-    return Object.entries(this._data);
+    return Object.entries(cloneDeep(this._data));
   }
 
   toString() {
-    return JSON.stringify(this._data);
+    return JSON3.stringify(this._data);
   }
 
   valueOf() {
-    return this._data;
+    return cloneDeep(this._data);
   }
 
   toJSON() {
-    return this._data;
+    return cloneDeep(this._data);
   }
 }
 

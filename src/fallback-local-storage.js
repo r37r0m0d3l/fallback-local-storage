@@ -1,5 +1,9 @@
-import FallbackStorage from "./storage";
+import * as JSON3 from 'json3';
+import getGlobal from 'system.global';
 import Serializer from "./serializer";
+import FallbackStorage from "./storage";
+
+const global = getGlobal();
 
 /**
  * @class FallbackLocalStorage
@@ -14,7 +18,7 @@ class FallbackLocalStorage {
    * @type {string}
    * @static
    */
-  static VERSION = "0.0.15";
+  static VERSION = "0.0.16";
 
   /**
    * @constructor
@@ -95,24 +99,27 @@ class FallbackLocalStorage {
   static getStorage() {
     const storage = [];
     try {
-      if (typeof localStorage !== "undefined") {
+      if (typeof global.localStorage !== "undefined") {
         try {
-          localStorage.setItem("", "");
+          global.localStorage.setItem("", "");
           storage.push("localStorage");
         } catch (error) {
+          //
         }
       }
     } catch (error) {
     }
     try {
-      if (typeof sessionStorage !== "undefined") {
+      if (typeof global.sessionStorage !== "undefined") {
         try {
-          sessionStorage.setItem("", "");
+          global.sessionStorage.setItem("", "");
           storage.push("sessionStorage");
         } catch (error) {
+          //
         }
       }
     } catch (error) {
+      //
     }
     storage.push("fallbackStorage");
     return storage;
@@ -122,7 +129,17 @@ class FallbackLocalStorage {
    * @returns {string}
    */
   toString() {
-    return JSON.stringify(this._storage);
+    return JSON3.stringify(this._storage);
+  }
+
+  /**
+   * @returns {*}
+   */
+  toJSON() {
+    if (("toJSON" in this._storage) && (typeof this._storage.toJSON === "function")) {
+      return this._storage.toJSON();
+    }
+    return JSON3.stringify(this._storage);
   }
 
   /**
@@ -139,13 +156,14 @@ class FallbackLocalStorage {
    * @returns {*}
    */
   getItem(name, defaults = null) {
-    if (!this.hasItem(name)) {
+    const strName = `${name}`;
+    if (!this.hasItem(strName)) {
       return defaults;
     }
     if (!this._serialize) {
-      return this._storage.getItem(name);
+      return this._storage.getItem(strName);
     }
-    return this._serializer.deserialize(this._storage.getItem(name));
+    return this._serializer.deserialize(this._storage.getItem(strName));
   }
 
   /**
@@ -156,18 +174,19 @@ class FallbackLocalStorage {
    * @returns {boolean} - is operation was successful
    */
   setItem(name, value) {
+    const strName = `${name}`;
     let setValue;
     if (this._serialize) {
       setValue = this._serializer.serialize(value);
     } else {
       if (this._debug && typeof value !== "string") {
-        console.warn(`Value for key "${name}" will be converted to string:\n"${value}"`);
+        console.warn(`Value for key "${strName}" will be converted to string:\n"${value}"`);
       }
       setValue = `${value}`;
     }
     let returnState = true;
     try {
-      this._storage.setItem(name, setValue);
+      this._storage.setItem(strName, setValue);
     } catch (error) {
       returnState = `Device exceeded storage data limit or encounter error.\n${error}`;
       if (this._debug) {
@@ -175,7 +194,7 @@ class FallbackLocalStorage {
       }
     }
     if (this._iterable) {
-      this[name] = setValue;
+      this[strName] = setValue;
     }
     return returnState;
   }
@@ -186,10 +205,11 @@ class FallbackLocalStorage {
    * @returns {boolean}
    */
   hasItem(name) {
+    const strName = `${name}`;
     if (typeof this._storage.hasItem === "function") {
-      return this._storage.hasItem(name);
+      return this._storage.hasItem(strName);
     }
-    return ((name in this._storage) && !(name in Storage.prototype));
+    return ((strName in this._storage) && !(strName in Storage.prototype));
   }
 
   /**
@@ -197,10 +217,13 @@ class FallbackLocalStorage {
    * @param {string} name
    */
   removeItem(name) {
-    if (this._iterable) {
-      delete this[name];
+    const strName = `${name}`;
+    if (this._storage.hasItem(strName)) {
+      if (this._iterable) {
+        delete this[strName];
+      }
+      this._storage.removeItem(strName);
     }
-    this._storage.removeItem(name);
   }
 
   /**
