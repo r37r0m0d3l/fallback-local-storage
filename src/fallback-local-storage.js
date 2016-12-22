@@ -18,7 +18,7 @@ class FallbackLocalStorage {
    * @type {string}
    * @static
    */
-  static VERSION = "0.0.16";
+  static VERSION = "0.0.17";
 
   /**
    * @constructor
@@ -218,7 +218,7 @@ class FallbackLocalStorage {
    */
   removeItem(name) {
     const strName = `${name}`;
-    if (this._storage.hasItem(strName)) {
+    if (this.hasItem(strName)) {
       if (this._iterable) {
         delete this[strName];
       }
