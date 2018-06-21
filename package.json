@@ -3,6 +3,10 @@
   "version": "0.0.18",
   "description": "Fallback for browser LocalStorage",
   "main": "./index.js",
+  "engines": {
+    "node": ">=8.0.0",
+    "npm": ">=5.2.0"
+  },
   "scripts": {
     "prepublish": "npm run build-all",
     "preversion": "npm run build-all",
