@@ -17,7 +17,7 @@ class FallbackLocalStorage {
    * @type {string}
    * @static
    */
-  static VERSION = "0.0.18";
+  static VERSION = "0.0.19";
 
   /**
    * @constructor
