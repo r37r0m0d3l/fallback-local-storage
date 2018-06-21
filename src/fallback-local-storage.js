@@ -1,4 +1,3 @@
-import * as JSON3 from 'json3';
 import getGlobal from 'system.global';
 import Serializer from "./serializer";
 import FallbackStorage from "./storage";
@@ -18,7 +17,7 @@ class FallbackLocalStorage {
    * @type {string}
    * @static
    */
-  static VERSION = "0.0.17";
+  static VERSION = "0.0.18";
 
   /**
    * @constructor
@@ -129,7 +128,7 @@ class FallbackLocalStorage {
    * @returns {string}
    */
   toString() {
-    return JSON3.stringify(this._storage);
+    return JSON.stringify(this._storage);
   }
 
   /**
@@ -139,7 +138,7 @@ class FallbackLocalStorage {
     if (("toJSON" in this._storage) && (typeof this._storage.toJSON === "function")) {
       return this._storage.toJSON();
     }
-    return JSON3.stringify(this._storage);
+    return JSON.stringify(this._storage);
   }
 
   /**
