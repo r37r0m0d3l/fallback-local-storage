@@ -1,5 +1,3 @@
-import * as JSON3 from 'json3';
-
 /**
  * Trying to parse or stringify JSON, do not throws errors
  * @class Serializer
@@ -40,7 +38,7 @@ class Serializer {
       return result;
     }
     try {
-      result = JSON3.parse(value);
+      result = JSON.parse(value);
     } catch (exception) {
       if (this._debug) {
         console.warn("Unable to parse serialized data");
@@ -57,7 +55,7 @@ class Serializer {
    * @returns {string}
    */
   serialize(value) {
-    return JSON3.stringify(value);
+    return JSON.stringify(value);
   }
 
 }

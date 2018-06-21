@@ -90,7 +90,6 @@
     "bundle-node": true
   },
   "dependencies": {
-    "json3": "3.3.2",
     "lodash.clonedeep": "4.5.0",
     "system.global": "2.0.0"
   }
