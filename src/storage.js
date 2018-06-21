@@ -1,4 +1,3 @@
-import * as JSON3 from 'json3';
 import cloneDeep from 'lodash.clonedeep';
 
 /**
@@ -68,7 +67,7 @@ class FallbackStorage {
   }
 
   toString() {
-    return JSON3.stringify(this._data);
+    return JSON.stringify(this._data);
   }
 
   valueOf() {

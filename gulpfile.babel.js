@@ -1,4 +1,4 @@
-'use strict';
+
 
 // This gulpfile makes use of new JavaScript features.
 // Babel handles this without us having to do anything. It just works.
@@ -10,7 +10,7 @@ import gulpLoadPlugins from 'gulp-load-plugins';
 import webpack from 'webpack';
 import del from 'del';
 import pkg from './package.json';
-import webpackConfig from "./webpack.config.js";
+import webpackConfig from "./webpack.config";
 
 const $ = gulpLoadPlugins();
 const libFolder = 'lib';
@@ -35,84 +35,85 @@ gulp.task('build-web-dev', ['webpack:build-web-dev'], () => {
 });
 
 // Run Babel only
-gulp.task('build-babel', ['clean'/*, 'lint'*/], () =>
-  gulp.src([sources])
+gulp.task('build-babel', ['clean'/* , 'lint'*/], () =>
+  gulp.src([sources], { buffer : false })
     .pipe($.babel())
     // Output files
-    .pipe(gulp.dest(libFolder))
+    .pipe(gulp.dest(libFolder)),
 );
 
 // Lint javascript
 gulp.task('lint', () =>
-  gulp.src(sources)
+  gulp.src(sources, { buffer : false })
     .pipe($.eslint())
     .pipe($.eslint.format())
-    .pipe($.eslint.failOnError())
+    .pipe($.eslint.failOnError()),
 );
 
 // Clean folder
 gulp.task('clean', () =>
-  del([`${libFolder}/**/*`])
+  del([`${libFolder}/**/*`]),
 );
 
 // Webpack helper
-gulp.task('webpack:build-web', done => {
-  var env = {'BUILD_ENV':'PROD', 'TARGET_ENV': 'WEB'};
-  var taskName = 'webpack:build-web';
+gulp.task('webpack:build-web', (done) => {
+  const env = { BUILD_ENV:'PROD', TARGET_ENV: 'WEB' };
+  const taskName = 'webpack:build-web';
   // run webpack
   webpack(webpackConfig(env), onBuild(done, taskName));
 });
 
 // Webpack watch helper
 // create a single instance of the compiler to allow caching
-var webDevCompiler = null;
-gulp.task('webpack:build-web-dev', done => {
-  var env = {'BUILD_ENV':'DEV', 'TARGET_ENV': 'WEB'};
-  var taskName = 'webpack:build-web-dev';
+let webDevCompiler = null;
+gulp.task('webpack:build-web-dev', (done) => {
+  const env = { BUILD_ENV:'DEV', TARGET_ENV: 'WEB' };
+  const taskName = 'webpack:build-web-dev';
   // build dev compiler
-  if(!webDevCompiler){
-      webDevCompiler = webpack(webpackConfig(env));
+  if (!webDevCompiler) {
+    webDevCompiler = webpack(webpackConfig(env));
   }
   // run webpack
   webDevCompiler.run(onBuild(done, taskName));
 });
 
 // Webpack helper
-gulp.task('webpack:build-node', done => {
-  var env = {'BUILD_ENV':'PROD', 'TARGET_ENV': 'NODE'};
-  var taskName = 'webpack:build-node';
+gulp.task('webpack:build-node', (done) => {
+  const env = { BUILD_ENV:'PROD', TARGET_ENV: 'NODE' };
+  const taskName = 'webpack:build-node';
   // run webpack
   webpack(webpackConfig(env), onBuild(done, taskName));
 });
 
 // Webpack watch helper
 // create a single instance of the compiler to allow caching
-var nodeDevCompiler = null;
-gulp.task('webpack:build-node-dev', done => {
-  var env = {'BUILD_ENV':'DEV', 'TARGET_ENV': 'NODE'};
-  var taskName = 'webpack:build-node-dev';
+let nodeDevCompiler = null;
+gulp.task('webpack:build-node-dev', (done) => {
+  const env = { BUILD_ENV:'DEV', TARGET_ENV: 'NODE' };
+  const taskName = 'webpack:build-node-dev';
   // build dev compiler
-  if(!nodeDevCompiler){
-      nodeDevCompiler = webpack(webpackConfig(env));
+  if (!nodeDevCompiler) {
+    nodeDevCompiler = webpack(webpackConfig(env));
   }
   // run webpack
   nodeDevCompiler.run(onBuild(done, taskName));
 });
 
-function onBuild(done, taskName){
+function onBuild(done, taskName) {
   return (err, stats) => {
-    if(err)
-      throw new gutil.PluginError(taskName, err);
-    $.util.log(`${taskName}`, stats.toString({colors: true}));
+    if (err)      {
+      throw new gutil.PluginError(taskName, err); 
+    }
+    $.util.log(`${taskName}`, stats.toString({ colors: true }));
     done && done();
   }
 }
 
 // Sets environment variable
-function setEnv(buildEnv){
+function setEnv(buildEnv) {
   $.env({
     vars: {
-      BUILD_ENV: buildEnv
-    }
+      BUILD_ENV: buildEnv,
+    },
   });
 }
