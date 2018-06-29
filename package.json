@@ -1,6 +1,6 @@
 {
   "name": "fallback-local-storage",
-  "version": "0.0.19",
+  "version": "0.0.20",
   "description": "Fallback for browser LocalStorage",
   "main": "./index.js",
   "engines": {
@@ -19,7 +19,8 @@
     "build-all": "gulp",
     "unit": "mocha --compilers js:babel-core/register --colors ./test/*.spec.js",
     "unit-watch": "mocha --compilers js:babel-core/register --colors -w ./test/*.spec.js",
-    "test": "npm run unit-watch"
+    "test": "npm run unit-watch",
+    "eslint-check": "npx eslint --print-config .eslintrc | eslint-config-prettier-check"
   },
   "repository": {
     "type": "git",
@@ -66,10 +67,12 @@
     "del": "2.2.2",
     "eslint": "3.11.1",
     "eslint-config-airbnb": "13.0.0",
+    "eslint-config-prettier": "2.9.0",
     "eslint-loader": "1.6.1",
     "eslint-plugin-import": "2.2.0",
     "eslint-plugin-jsx-a11y": "2.2.3",
-    "eslint-plugin-react": "6.7.1",
+    "eslint-plugin-prettier": "2.6.1",
+    "eslint-plugin-react": "7.10.0",
     "eslint-plugin-standard": "2.0.1",
     "gulp": "3.9.1",
     "gulp-babel": "6.1.2",
@@ -79,6 +82,7 @@
     "gulp-util": "3.0.7",
     "mocha": "5.2.0",
     "object-assign": "4.1.0",
+    "prettier": "1.13.7",
     "webpack": "1.13.3",
     "webpack-node-externals": "1.5.4"
   },
