@@ -31,7 +31,7 @@ var FallbackLocalStorage = require("fallback-local-storage");
 import FallbackLocalStorage from "fallback-local-storage";
 ```
 
-####Creating an instance:
+#### Creating an instance:
 
 Creating instance with little check.
 
