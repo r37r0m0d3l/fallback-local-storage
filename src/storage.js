@@ -1,11 +1,10 @@
-import cloneDeep from 'lodash.clonedeep';
+import cloneDeep from "lodash.clonedeep";
 
 /**
  * A fallback interface imitation of the Web Storage API.
  * @class FallbackStorage
  */
 class FallbackStorage {
-
   constructor() {
     this._data = {};
   }
@@ -25,7 +24,7 @@ class FallbackStorage {
   }
 
   hasItem(key) {
-    return (key in this._data);
+    return key in this._data;
   }
 
   removeItem(key) {
