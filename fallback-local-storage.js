@@ -1,8 +1,185 @@
-import getGlobal from "system.global";
-import Serializer from "./serializer";
-import FallbackStorage from "./storage";
+let theGlobal = Function("return this")();
 
-const global = getGlobal();
+function cloneDeep(obj) {
+  return JSON.parse(JSON.stringify(obj));
+}
+
+function isMap(value) {
+  return value && (value instanceof Map || value.constructor.name === "Map");
+}
+
+function isSet(value) {
+  return value && (value instanceof Set || value.constructor.name === "Set");
+}
+
+function isKeyed(value) {
+  return isMap(value) || isSet(value);
+}
+
+function keyedToObject(keyed) {
+  if (!isKeyed(keyed)) {
+    return keyed;
+  }
+  if (isSet(keyed)) {
+    return Array.from(keyed).map((value) => (isKeyed(value) ? keyedToObject(value) : value));
+  }
+  const object = {};
+  keyed.forEach((value, key) => {
+    if (isKeyed(value)) {
+      object[key] = keyedToObject(value);
+    } else {
+      object[key] = value;
+    }
+  });
+  return object;
+}
+
+/**
+ * Trying to parse or stringify JSON, do not throws errors
+ * @class Serializer
+ */
+class Serializer {
+  constructor(debug = false) {
+    Object.defineProperty(this, "_debug", {
+      value: !!debug,
+      writable: true,
+      configurable: false,
+      enumerable: false,
+    });
+  }
+
+  deserialize(value, defaults) {
+    let result = defaults;
+    const type = typeof value;
+    if (!value) {
+      if (this._debug) {
+        console.warn("Unable to parse scalar or empty values");
+        console.dir(value);
+      }
+      return result;
+    }
+    if (type === "object") {
+      if (this._debug) {
+        console.warn("It looks like value is already parsed");
+        console.dir(value);
+      }
+      return value;
+    }
+    if (type !== "string") {
+      if (this._debug) {
+        console.warn("Unable to parse non-string values");
+        console.dir(value);
+      }
+      return result;
+    }
+    try {
+      result = JSON.parse(value);
+    } catch (exception) {
+      if (this._debug) {
+        console.warn("Unable to parse serialized data");
+        console.dir(value);
+        console.dir(exception);
+      }
+    }
+    return result;
+  }
+
+  // noinspection Eslint
+  /**
+   * @param {*} value
+   * @returns {string}
+   */
+  serialize(value) {
+    if (!value) {
+      return JSON.stringify(value);
+    }
+    if (typeof value !== "object") {
+      return JSON.stringify(value);
+    }
+    if (Array.isArray(value)) {
+      return JSON.stringify(value);
+    }
+    return JSON.stringify(keyedToObject(value));
+  }
+}
+
+/**
+ * A fallback interface imitation of the Web Storage API.
+ * @class FallbackStorage
+ */
+class FallbackStorage {
+  constructor() {
+    this._data = {};
+  }
+
+  setItem(key, value) {
+    if (!key) {
+      return;
+    }
+    this._data[`${key}`] = `${value}`;
+  }
+
+  getItem(key) {
+    if (key in this._data) {
+      return cloneDeep(this._data[key]);
+    }
+    return null;
+  }
+
+  hasItem(key) {
+    return key in this._data;
+  }
+
+  removeItem(key) {
+    if (key in this._data) {
+      delete this._data[key];
+    }
+  }
+
+  key(key) {
+    const keys = Object.keys(this._data);
+    if (key in keys) {
+      return cloneDeep(keys[key]);
+    }
+    return null;
+  }
+
+  clear() {
+    this._data = {};
+  }
+
+  get length() {
+    return Object.keys(this._data).length;
+  }
+
+  set length(value) {
+    return Object.keys(this._data).length;
+  }
+
+  keys() {
+    return Object.keys(this._data);
+  }
+
+  values() {
+    return Object.values(cloneDeep(this._data));
+  }
+
+  entries() {
+    return Object.entries(cloneDeep(this._data));
+  }
+
+  toString() {
+    return JSON.stringify(this._data);
+  }
+
+  valueOf() {
+    return cloneDeep(this._data);
+  }
+
+  toJSON() {
+    return cloneDeep(this._data);
+  }
+}
 
 /**
  * @class FallbackLocalStorage
@@ -12,12 +189,16 @@ class FallbackLocalStorage {
    * @type {string}
    * @static
    */
-  static NAME = "FallbackLocalStorage";
+  static get NAME() {
+    return "FallbackLocalStorage";
+  }
   /**
    * @type {string}
    * @static
    */
-  static VERSION = "0.0.20";
+  static get VERSION() {
+    return "0.0.21";
+  }
 
   /**
    * @constructor
@@ -26,29 +207,24 @@ class FallbackLocalStorage {
    * @param {boolean=false} autoSerialize
    * @param {Function|Object=} CustomSerializer
    */
-  constructor(
-    debug = false,
-    iterable = false,
-    autoSerialize = true,
-    CustomSerializer = null
-  ) {
+  constructor(debug = false, iterable = false, autoSerialize = true, CustomSerializer = null) {
     Object.defineProperty(this, "_debug", {
       value: !!debug,
       writable: true,
       configurable: false,
-      enumerable: false
+      enumerable: false,
     });
     Object.defineProperty(this, "_iterable", {
       value: !!iterable,
       writable: false,
       configurable: false,
-      enumerable: false
+      enumerable: false,
     });
     Object.defineProperty(this, "_serialize", {
       value: !!autoSerialize,
       writable: false,
       configurable: false,
-      enumerable: false
+      enumerable: false,
     });
     Object.defineProperty(this, "_serializer", {
       value: (function _serializer(_this) {
@@ -63,7 +239,7 @@ class FallbackLocalStorage {
       })(this),
       writable: false,
       configurable: false,
-      enumerable: false
+      enumerable: false,
     });
     let storage = {};
     const storageAvailable = FallbackLocalStorage.getStorage();
@@ -91,7 +267,7 @@ class FallbackLocalStorage {
       value: storage,
       writable: true,
       configurable: false,
-      enumerable: false
+      enumerable: false,
     });
   }
 
@@ -103,9 +279,9 @@ class FallbackLocalStorage {
   static getStorage() {
     const storage = [];
     try {
-      if (typeof global.localStorage !== "undefined") {
+      if (typeof theGlobal.localStorage !== "undefined") {
         try {
-          global.localStorage.setItem("", "");
+          theGlobal.localStorage.setItem("", "");
           storage.push("localStorage");
         } catch (error) {
           //
@@ -113,9 +289,9 @@ class FallbackLocalStorage {
       }
     } catch (error) {}
     try {
-      if (typeof global.sessionStorage !== "undefined") {
+      if (typeof theGlobal.sessionStorage !== "undefined") {
         try {
-          global.sessionStorage.setItem("", "");
+          theGlobal.sessionStorage.setItem("", "");
           storage.push("sessionStorage");
         } catch (error) {
           //
@@ -139,10 +315,7 @@ class FallbackLocalStorage {
    * @returns {*}
    */
   toJSON() {
-    if (
-      "toJSON" in this._storage &&
-      typeof this._storage.toJSON === "function"
-    ) {
+    if ("toJSON" in this._storage && typeof this._storage.toJSON === "function") {
       return this._storage.toJSON();
     }
     return JSON.stringify(this._storage);
@@ -186,9 +359,7 @@ class FallbackLocalStorage {
       setValue = this._serializer.serialize(value);
     } else {
       if (this._debug && typeof value !== "string") {
-        console.warn(
-          `Value for key "${strName}" will be converted to string: "${value}"`
-        );
+        console.warn(`Value for key "${strName}" will be converted to string: "${value}"`);
       }
       setValue = `${value}`;
     }
@@ -239,7 +410,7 @@ class FallbackLocalStorage {
    */
   clear() {
     if (this._iterable) {
-      Object.keys(this).forEach(name => delete this[name]);
+      Object.keys(this).forEach((name) => delete this[name]);
     }
     this._storage.clear();
   }
@@ -313,7 +484,7 @@ class FallbackLocalStorage {
     } else {
       values = Object.values(this._storage);
     }
-    return values.map(value => this._serializer.deserialize(value));
+    return values.map((value) => this._serializer.deserialize(value));
   }
 
   /**
@@ -333,7 +504,7 @@ class FallbackLocalStorage {
     } else {
       entries = Object.entries(this._storage);
     }
-    return entries.map(entry => {
+    return entries.map((entry) => {
       const newEntry = [];
       newEntry[0] = entry[0];
       newEntry[1] = this._serializer.deserialize(entry[1]);
@@ -354,10 +525,7 @@ class FallbackLocalStorage {
     if (typeof callback !== "function") {
       return;
     }
-    if (
-      this._serialize === false &&
-      typeof this._storage.forEach === "function"
-    ) {
+    if (this._serialize === false && typeof this._storage.forEach === "function") {
       this._storage.forEach.call(thisArg, callback);
     }
     this.entries().forEach((value, key) => callback.call(thisArg, value, key));
@@ -378,4 +546,5 @@ class FallbackLocalStorage {
     return this.keys().length;
   }
 }
+
 module.exports = FallbackLocalStorage;

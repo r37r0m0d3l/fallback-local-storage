@@ -13,19 +13,13 @@ Universal `localStorage` fallback. Saves your time by fixing `Private Mode` erro
 npm i --save --save-exact fallback-local-storage
 ```
 
-```bash
-bower install --save fallback-local-storage
-```
-
 ### Include
-
-```html
-<script src="./bower_components/fallback-local-storage/dist/fallback-local-storage.web.js"></script>
-```
 
 ```javascript
 var FallbackLocalStorage = require("fallback-local-storage");
 ```
+
+or
 
 ```javascript
 import FallbackLocalStorage from "fallback-local-storage";
@@ -51,15 +45,15 @@ if (FallbackLocalStorage.getStorage().includes("localStorage")) {
 Recommended way of using instance.
 
 ```javascript
-global.appStorage = appStorage;
+globalThis.appStorage = appStorage;
 self.appStorage = appStorage;
-window.appStorage = appStorage;
 ```
 
 Not recommended. Only if you have troubles with `Private Mode` and other libraries.
 
 ```javascript
-window.localStorage = new FallbackLocalStorage();
+globalThis.localStorage = new FallbackLocalStorage();
+self.localStorage = new FallbackLocalStorage();
 ```
 
 ```javascript
@@ -138,6 +132,10 @@ appStorage.setItem("set", set);
 ```
 
 ### Changelog
+
+#### 0.0.21
+
+- Move everything to one file.
 
 #### 0.0.20
 
