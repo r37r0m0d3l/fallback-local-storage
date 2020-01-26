@@ -1,4 +1,4 @@
-Fallback Local Storage
+Local Storage Fallback
 ===========
 
 Universal `localStorage` fallback. Saves your time by fixing `Private Mode` error writing in web browser and auto serialization that not included in `localStorage` by default.
