@@ -28,7 +28,7 @@
   },
   "homepage": "https://github.com/r37r0m0d3l/fallback-local-storage",
   "devDependencies": {
-    "eslint": "6.6.0",
+    "eslint": "6.8.0",
     "eslint-config-prettier": "6.10.0",
     "eslint-plugin-prettier": "3.1.1",
     "jest": "24.9.0",
