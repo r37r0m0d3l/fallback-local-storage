@@ -142,6 +142,10 @@ appStorage.setItem("set", set);
 
 ## Changelog
 
+### 1.0.1
+
+-   Fixed tests
+
 ### 1.0.0
 
 -   Added ECMAScript module variant.
