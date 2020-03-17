@@ -1,31 +1,40 @@
-Local Storage Fallback
-===========
+# Local Storage Fallback
 
-Universal `localStorage` fallback. Saves your time by fixing `Private Mode` error writing in web browser and auto serialization that not included in `localStorage` by default.
+Universal `localStorage` fallback.
+Saves your time by fixing `Private Mode` error writing in web browser and
+auto serialization that not included in `localStorage` by default.
 
 [![Version](http://img.shields.io/npm/v/fallback-local-storage.svg)](https://www.npmjs.org/package/fallback-local-storage)
 [![Build Status](https://travis-ci.org/r37r0m0d3l/fallback-local-storage.svg?branch=master)](https://travis-ci.org/r37r0m0d3l/fallback-local-storage)
 [![Code style: airbnb](https://img.shields.io/badge/code%20style-airbnb-blue.svg?style=flat)](https://github.com/airbnb/javascript)
 
-### Install
+## Install
 
 ```bash
-npm i --save --save-exact fallback-local-storage
+npm i fallback-local-storage
 ```
 
-### Include
+## Include
+
+Require CommonJS.
 
 ```javascript
-var FallbackLocalStorage = require("fallback-local-storage");
+const FallbackLocalStorage = require("fallback-local-storage");
 ```
 
-or
+Import as ECMAScript module.
 
 ```javascript
-import FallbackLocalStorage from "fallback-local-storage";
+import FallbackLocalStorage from "fallback-local-storage/es";
 ```
 
-#### Creating an instance:
+CDN.
+
+```html
+<script src="https://unpkg.com/fallback-local-storage"></script>
+```
+
+## Creating an instance
 
 Creating instance with little check.
 
@@ -68,7 +77,7 @@ const CUSTOM_SERIALIZER = null;
 const appStorage = new FallbackLocalStorage(DEBUG, ITERABLE, AUTO_SERIALIZE, CUSTOM_SERIALIZER);
 ```
 
-### API
+## API
 
 All basic methods of `localStorage` are included.
 
@@ -87,7 +96,7 @@ appStorage.length;
 appStorage.clear();
 ```
 
-##### static getStorage (): Array
+### static getStorage (): Array
 
 Return list of available storage
 
@@ -96,7 +105,7 @@ FallbackLocalStorage.getStorage();
 // ["localStorage", "sessionStorage", "fallbackStorage"]
 ```
 
-#### Examples
+## Examples
 
 ```javascript
 const appStorage = new FallbackLocalStorage();
@@ -131,22 +140,43 @@ appStorage.setItem("set", set);
 // ["ONE", "TWO", "THREE"]
 ```
 
-### Changelog
+## Changelog
 
-#### 0.0.21
+### 1.0.0
 
-- Move everything to one file.
+-   Added ECMAScript module variant.
 
-#### 0.0.20
+### 0.0.21
 
-- Add serialization for Set and Map.
-- Update documentation.
+-   Move everything to one file.
 
-#### 0.0.19
+### 0.0.20
 
-- Remove `json3` from dependencies.
-- Update dependencies.
+-   Add serialization for Set and Map.
+-   Update documentation.
 
-#### 0.0.18
+### 0.0.19
 
-- Fully compatible with localStorage API.
+-   Remove `json3` from dependencies.
+-   Update dependencies.
+
+### 0.0.18
+
+-   Fully compatible with localStorage API.
+
+## Discover more
+
+-   🔎[Consono](https://consono.js.org)🔎 -
+  The most informative and correct variable inspector for JavaScript on the web.
+
+-   🌠[OF](https://of.js.org)🌠 - Promise wrapper with some sugar.
+
+-   🔄[Publish Subscribe](https://publish-subscribe.js.org)🔄 -
+  JavaScript implementation of the Publish-Subscribe pattern.
+
+-   🧰[Vicis](https://vicis.js.org)🧰 -
+  Presentation and transformation layer for data output in RESTful APIs.
+
+Or find useful these tools:
+
+-   🧾[JSON Sorter](https://r37r0m0d3l.github.io/json_sort)🧾 - Neat online JSON sorter.

@@ -1,4 +1,19 @@
-let theGlobal = Function("return this")();
+const getGlobal = function() {
+  if (typeof self !== "undefined") {
+    // eslint-disable-next-line no-undef
+    return self;
+  }
+  if (typeof window !== "undefined") {
+    // eslint-disable-next-line no-undef
+    return window;
+  }
+  if (typeof global !== "undefined") {
+    return global;
+  }
+  throw new Error("unable to locate global object");
+};
+
+let theGlobal = getGlobal();
 
 function cloneDeep(obj) {
   return JSON.parse(JSON.stringify(obj));
@@ -41,7 +56,7 @@ function keyedToObject(keyed) {
 class Serializer {
   constructor(debug = false) {
     Object.defineProperty(this, "_debug", {
-      value: !!debug,
+      value: Boolean(debug),
       writable: true,
       configurable: false,
       enumerable: false,
@@ -197,7 +212,7 @@ class FallbackLocalStorage {
    * @static
    */
   static get VERSION() {
-    return "0.0.21";
+    return "0.0.22";
   }
 
   /**
@@ -209,19 +224,19 @@ class FallbackLocalStorage {
    */
   constructor(debug = false, iterable = false, autoSerialize = true, CustomSerializer = null) {
     Object.defineProperty(this, "_debug", {
-      value: !!debug,
+      value: Boolean(debug),
       writable: true,
       configurable: false,
       enumerable: false,
     });
     Object.defineProperty(this, "_iterable", {
-      value: !!iterable,
+      value: Boolean(iterable),
       writable: false,
       configurable: false,
       enumerable: false,
     });
     Object.defineProperty(this, "_serialize", {
-      value: !!autoSerialize,
+      value: Boolean(autoSerialize),
       writable: false,
       configurable: false,
       enumerable: false,
@@ -245,13 +260,13 @@ class FallbackLocalStorage {
     const storageAvailable = FallbackLocalStorage.getStorage();
     switch (true) {
       case storageAvailable.indexOf("localStorage") > -1:
-        storage = localStorage;
+        storage = theGlobal.localStorage;
         if (this._debug) {
           console.info("FallbackLocalStorage. Start using [localStorage].");
         }
         break;
       case storageAvailable.indexOf("sessionStorage") > -1:
-        storage = sessionStorage;
+        storage = theGlobal.sessionStorage;
         if (this._debug) {
           console.warn("FallbackLocalStorage. Start using [sessionStorage].");
         }
@@ -287,7 +302,9 @@ class FallbackLocalStorage {
           //
         }
       }
-    } catch (error) {}
+    } catch (error) {
+      //
+    }
     try {
       if (typeof theGlobal.sessionStorage !== "undefined") {
         try {
@@ -388,7 +405,7 @@ class FallbackLocalStorage {
     if (typeof this._storage.hasItem === "function") {
       return this._storage.hasItem(strName);
     }
-    return strName in this._storage && !(strName in Storage.prototype);
+    return strName in this._storage && !(strName in theGlobal.Storage.prototype);
   }
 
   /**
@@ -547,4 +564,4 @@ class FallbackLocalStorage {
   }
 }
 
-module.exports = FallbackLocalStorage;
+export default FallbackLocalStorage;

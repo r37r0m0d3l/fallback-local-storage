@@ -1,39 +1,78 @@
 {
-  "name": "fallback-local-storage",
-  "version": "0.0.21",
+  "author": {
+    "name": "Anton Trofimenko",
+    "url": "https://github.com/r37r0m0d3l"
+  },
+  "bugs": {
+    "url": "https://github.com/r37r0m0d3l/fallback-local-storage/issues"
+  },
+  "contributors": [
+    {
+      "email": "r37r0m0d3l@protonmail.com",
+      "name": "Anton Trofimenko"
+    }
+  ],
+  "dependencies": {},
   "description": "Fallback for browser LocalStorage",
-  "main": "index.js",
-  "scripts": {
-    "test": "jest",
-    "build": "npm run compile",
-    "compile": "terser --compress --mangle --keep-fnames --verbose --warn --output index.js -- fallback-local-storage.js"
+  "devDependencies": {
+    "@babel/core": "7.8.7",
+    "@babel/plugin-proposal-class-properties": "7.8.3",
+    "@babel/plugin-proposal-private-methods": "7.8.3",
+    "@babel/preset-env": "7.8.7",
+    "@rollup/plugin-commonjs": "11.0.2",
+    "@rollup/plugin-node-resolve": "7.1.1",
+    "babel-core": "7.0.0-bridge.0",
+    "babel-eslint": "10.1.0",
+    "eslint": "6.8.0",
+    "eslint-config-prettier": "6.10.0",
+    "eslint-plugin-prettier": "3.1.2",
+    "jest": "25.1.0",
+    "prettier": "1.19.1",
+    "remark-cli": "7.0.1",
+    "remark-lint": "6.0.5",
+    "remark-preset-lint-consistent": "2.0.3",
+    "remark-preset-lint-markdown-style-guide": "2.1.3",
+    "remark-preset-lint-recommended": "3.0.3",
+    "rollup": "2.0.6",
+    "rollup-plugin-babel": "4.4.0",
+    "rollup-plugin-terser": "5.3.0"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/r37r0m0d3l/fallback-local-storage.git"
+  "exports": {
+    ".": "./dist/fallback-local-storage.cjs",
+    "./default": "./dist/fallback-local-storage.cjs",
+    "./es": "./dist/fallback-local-storage.mjs"
   },
+  "files": [
+    "dist/fallback-local-storage.cjs",
+    "dist/fallback-local-storage.cjs.map",
+    "dist/fallback-local-storage.d.ts",
+    "dist/fallback-local-storage.js",
+    "dist/fallback-local-storage.js.map",
+    "dist/fallback-local-storage.mjs",
+    "dist/fallback-local-storage.mjs.map"
+  ],
+  "homepage": "https://github.com/r37r0m0d3l/fallback-local-storage",
   "keywords": [
     "fallback",
     "polyfill",
     "storage",
     "localstorage"
   ],
-  "author": {
-    "name": "Anton Trofimenko",
-    "url": "https://github.com/r37r0m0d3l"
-  },
   "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/r37r0m0d3l/fallback-local-storage/issues"
+  "main": "dist/fallback-local-storage.cjs",
+  "name": "fallback-local-storage",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/r37r0m0d3l/fallback-local-storage.git"
   },
-  "homepage": "https://github.com/r37r0m0d3l/fallback-local-storage",
-  "devDependencies": {
-    "eslint": "6.8.0",
-    "eslint-config-prettier": "6.10.0",
-    "eslint-plugin-prettier": "3.1.1",
-    "jest": "25.1.0",
-    "prettier": "1.18.2",
-    "terser": "4.6.4"
+  "scripts": {
+    "build-cli": "rollup --config rollup.config.cli.mjs",
+    "build-web": "rollup --config rollup.config.web.mjs",
+    "lint": "eslint ./src/**/*.mjs",
+    "lint-md": "remark .",
+    "test": "jest",
+    "upgrade": "yarn upgrade-interactive --latest"
   },
-  "dependencies": {}
+  "type": "module",
+  "version": "0.0.22"
 }

@@ -1,4 +1,4 @@
-const FallbackLocalStorage = require("../fallback-local-storage.js");
+const FallbackLocalStorage = require("../dist/fallback-local-storage.cjs");
 
 describe("calling and printing", () => {
   it("should not fail", () => {
