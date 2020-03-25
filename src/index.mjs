@@ -1,4 +1,4 @@
-const getGlobal = function() {
+const getGlobal = function () {
   if (typeof self !== "undefined") {
     // eslint-disable-next-line no-undef
     return self;

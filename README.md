@@ -4,9 +4,11 @@ Universal `localStorage` fallback.
 Saves your time by fixing `Private Mode` error writing in web browser and
 auto serialization that not included in `localStorage` by default.
 
-[![Version](http://img.shields.io/npm/v/fallback-local-storage.svg)](https://www.npmjs.org/package/fallback-local-storage)
+[![NPM Version](https://img.shields.io/npm/v/fallback-local-storage.svg?style=flat)]()
+[![NPM Downloads](https://img.shields.io/npm/dt/fallback-local-storage.svg?style=flat)]()
 [![Build Status](https://travis-ci.org/r37r0m0d3l/fallback-local-storage.svg?branch=master)](https://travis-ci.org/r37r0m0d3l/fallback-local-storage)
-[![Code style: airbnb](https://img.shields.io/badge/code%20style-airbnb-blue.svg?style=flat)](https://github.com/airbnb/javascript)
+[![GitHub stars](https://img.shields.io/github/stars/r37r0m0d3l/fallback-local-storage.svg?style=social&label=Star)](https://github.com/r37r0m0d3l/fallback-local-storage)
+[![GitHub followers](https://img.shields.io/github/followers/r37r0m0d3l.svg?style=social&label=Follow)](https://github.com/r37r0m0d3l)
 
 ## Install
 
@@ -42,10 +44,10 @@ Creating instance with little check.
 let appStorage;
 if (FallbackLocalStorage.getStorage().includes("localStorage")) {
 	// Here we don't have any problems with writing to `window.localStorage`
-	appStorage = window.localStorage;
+	appStorage = globalThis.localStorage;
 } else {
 	// Looks like we have some troubles.
-	// Browser has disable `window.localStorage` support.
+	// Browser has disable `globalThis.localStorage` support.
 	// Or browser is in `Private Mode` which disables localStorage completely.
 	appStorage = new FallbackLocalStorage();
 }
@@ -141,6 +143,14 @@ appStorage.setItem("set", set);
 ```
 
 ## Changelog
+
+### 1.0.3
+
+-   Updated dependencies
+
+### 1.0.2
+
+-   Updated dependencies
 
 ### 1.0.1
 
