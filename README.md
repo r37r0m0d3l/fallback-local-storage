@@ -72,7 +72,8 @@ self.localStorage = new FallbackLocalStorage();
 ```javascript
 // Toggle debug information output.
 const DEBUG = false;
-// Allow iteration over instance. Disable if you don't want be compatible with localStorage.
+// Allow iteration over instance.
+// Disable if you don't want be compatible with localStorage.
 const ITERABLE = true;
 // Serialize data before save and retrieve. VERY RECOMMENDED.
 const AUTO_SERIALIZE = true;
