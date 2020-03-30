@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.0.5
+
+-   Documentation updated
+
 ## 1.0.4
 
 -   Updated dependencies

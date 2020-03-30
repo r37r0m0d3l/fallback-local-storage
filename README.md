@@ -43,12 +43,14 @@ Creating instance with little check.
 ```javascript
 let appStorage;
 if (FallbackLocalStorage.getStorage().includes("localStorage")) {
-	// Here we don't have any problems with writing to `window.localStorage`
+	// Here we don't have any problems
+	// with writing to `window.localStorage`
 	appStorage = globalThis.localStorage;
 } else {
 	// Looks like we have some troubles.
-	// Browser has disable `globalThis.localStorage` support.
-	// Or browser is in `Private Mode` which disables localStorage completely.
+	// Browser has disable `window.localStorage` support.
+	// Or browser is in `Private Mode`
+	// which disables localStorage completely.
 	appStorage = new FallbackLocalStorage();
 }
 ```
@@ -76,7 +78,9 @@ const ITERABLE = true;
 const AUTO_SERIALIZE = true;
 // Custom serializer for values.
 const CUSTOM_SERIALIZER = null;
-const appStorage = new FallbackLocalStorage(DEBUG, ITERABLE, AUTO_SERIALIZE, CUSTOM_SERIALIZER);
+const appStorage = new FallbackLocalStorage(
+  DEBUG, ITERABLE, AUTO_SERIALIZE, CUSTOM_SERIALIZER
+);
 ```
 
 ## API
