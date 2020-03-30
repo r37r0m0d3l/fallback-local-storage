@@ -15,9 +15,12 @@
 /.travis.yml
 /LICENSE
 /README.md
+/changelog.md
+/package-lock.json
+/package.json
 /renovate.json
 /rollup.config.cli.mjs
 /rollup.config.web.mjs
-/temp/
-/test
+/src/
+/test/
 /yarn.lock
