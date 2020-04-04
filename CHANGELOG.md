@@ -1,5 +1,9 @@
 # Changelog
 
+# 1.0.6
+
+-   Updated dependencies. Fixed security alerts.
+
 ## 1.0.5
 
 -   Documentation updated
