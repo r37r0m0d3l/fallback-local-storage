@@ -560,7 +560,7 @@ class FallbackLocalStorage {
    * @param {Number} value
    */
   set length(value) {
-    return this.keys().length;
+    this.keys().length;
   }
 }
 
