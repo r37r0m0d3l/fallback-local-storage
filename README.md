@@ -8,6 +8,7 @@ auto serialization that not included in `localStorage` by default.
 [![downloads](https://badgen.net/npm/dt/fallback-local-storage?&icon=terminal&label=downloads&color=009688)](https://github.com/r37r0m0d3l/fallback-local-storage)
 [![stars](https://badgen.net/github/stars/r37r0m0d3l/fallback-local-storage?&icon=github&label=stars&color=ffcc33)](https://github.com/r37r0m0d3l/fallback-local-storage)
 [![build](https://badgen.net/travis/r37r0m0d3l/fallback-local-storage?&icon=travis&label=build)](https://github.com/r37r0m0d3l/fallback-local-storage)
+[![lgtm](https://badgen.net/lgtm/grade/g/r37r0m0d3l/fallback-local-storage?&icon=lgtm&label=lgtm:js/ts&color=00C853&v=1.5.0)](https://github.com/r37r0m0d3l/fallback-local-storage)
 
 ## Install
 
@@ -26,7 +27,7 @@ const FallbackLocalStorage = require("fallback-local-storage");
 Import as ECMAScript module.
 
 ```javascript
-import FallbackLocalStorage from "fallback-local-storage/es";
+import FallbackLocalStorage from "fallback-local-storage";
 ```
 
 CDN.

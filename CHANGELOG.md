@@ -1,6 +1,10 @@
 # Changelog
 
-# 1.0.6
+## 1.1.0
+
+-   ⚡️ Change default export format
+
+## 1.0.6
 
 -   Updated dependencies. Fixed security alerts.
 

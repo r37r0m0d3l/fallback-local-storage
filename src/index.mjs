@@ -168,7 +168,7 @@ class FallbackStorage {
   }
 
   set length(value) {
-    return Object.keys(this._data).length;
+    Object.keys(this._data).length;
   }
 
   keys() {
