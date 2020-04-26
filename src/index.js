@@ -201,7 +201,7 @@ class FallbackStorage {
  */
 class FallbackLocalStorage {
   /**
-   * @type {string}
+   * @type {"FallbackLocalStorage"}
    * @static
    */
   static get NAME() {
@@ -217,10 +217,12 @@ class FallbackLocalStorage {
 
   /**
    * @constructor
-   * @param {boolean=false} debug
-   * @param {boolean=false} iterable
-   * @param {boolean=false} autoSerialize
-   * @param {Function|Object=} CustomSerializer
+   * @param {boolean} [debug=false] - Toggle debug information output.
+   * @param {boolean} [iterable=false] - Allow iteration over instance. Disable if you don't want be compatible with
+   * localStorage.
+   * @param {boolean} [autoSerialize=false] - Serialize data before save and retrieve. VERY RECOMMENDED.
+   * @param {(Function|Object)} [CustomSerializer=null] - Custom serializer for values.
+   * @public
    */
   constructor(debug = false, iterable = false, autoSerialize = true, CustomSerializer = null) {
     Object.defineProperty(this, "_debug", {
@@ -287,8 +289,12 @@ class FallbackLocalStorage {
   }
 
   /**
-   * Return list of available storage.
-   * @returns {Array}
+   * @name getStorage
+   * @description Return list of available storage. Can return `localStorage`, `sessionStorage` and `fallbackStorage`.
+   * Will always return at least `fallbackStorage`.
+   * @public
+   * @returns {Array.<"localStorage"|"sessionStorage"|"fallbackStorage">} Available storage locations
+   * @example FallbackLocalStorage.getStorage() // ["localStorage", "fallbackStorage"]
    * @static
    */
   static getStorage() {
@@ -322,6 +328,9 @@ class FallbackLocalStorage {
   }
 
   /**
+   * @name toString
+   * @description Stringifies storage contents.
+   * @public
    * @returns {string}
    */
   toString() {
@@ -329,6 +338,9 @@ class FallbackLocalStorage {
   }
 
   /**
+   * @name toJSON
+   * @description Returns FallbackLocalStorage or stringified localStorage/sessionStorage.
+   * @public
    * @returns {*}
    */
   toJSON() {
@@ -339,6 +351,9 @@ class FallbackLocalStorage {
   }
 
   /**
+   * @name toStringTag
+   * @description Returns FallbackLocalStorage instance as a string.
+   * @public
    * @returns {string}
    */
   toStringTag() {
@@ -346,10 +361,14 @@ class FallbackLocalStorage {
   }
 
   /**
-   * When passed a key name, will return that key's value.
-   * @param {string} name - the name of the key you want to retrieve the value of
-   * @param {*} defaults - default value to return
+   * @name getItem
+   * @description When passed a key name, will return that key's value if storage has an item at that key.
+   * Otherwise it returns defaults, the optional second param (null if not provided).
+   * @public
+   * @param {string} name - The name of the key you want to retrieve the value of.
+   * @param {*} [defaults=null] - Default value to return if no item found at key name.
    * @returns {*}
+   * @example fallbackStorage.getItem("email") // "person@example.org"
    */
   getItem(name, defaults = null) {
     const strName = `${name}`;
@@ -363,11 +382,14 @@ class FallbackLocalStorage {
   }
 
   /**
-   * When passed a key name and value, will add that key to the storage,
+   * @name setItem
+   * @description When passed a key name and value, will add that key to the storage,
    * or update that key's value if it already exists.
-   * @param {string} name - a string containing the name of the key you want to create/update
-   * @param {*} value - value you want to give the key you are creating/updating
-   * @returns {boolean} - is operation was successful
+   * @public
+   * @param {string} name - The key to create or update.
+   * @param {*} value - Value to store at the given key.
+   * @returns {boolean} Was operation successful
+   * @example appStorage.setItem("hash", { name: "John" })
    */
   setItem(name, value) {
     const strName = `${name}`;
@@ -396,9 +418,12 @@ class FallbackLocalStorage {
   }
 
   /**
-   * Checks if key exists in storage.
-   * @param {string} name
+   * @name hasItem
+   * @description Check if key exists in storage.
+   * @public
+   * @param {string} name - Key to check
    * @returns {boolean}
+   * @example fallbackStorage.hasItem('email') // true
    */
   hasItem(name) {
     const strName = `${name}`;
@@ -409,8 +434,11 @@ class FallbackLocalStorage {
   }
 
   /**
-   * When passed a key name, will remove that key from the storage.
-   * @param {string} name
+   * @name removeItem
+   * @description Removes the given key from storage.
+   * @public
+   * @param {string} name - Key to remove
+   * @example fallbackStorage.removeItem('email')
    */
   removeItem(name) {
     const strName = `${name}`;
@@ -423,7 +451,10 @@ class FallbackLocalStorage {
   }
 
   /**
-   * When invoked, will empty all keys out of the storage.
+   * @name clear
+   * @description Empties all keys out of the storage.
+   * @public
+   * @example fallbackStorage.clear()
    */
   clear() {
     if (this._iterable) {
@@ -433,8 +464,10 @@ class FallbackLocalStorage {
   }
 
   /**
-   * Returns the name of the nth key in the storage. This is a zero-based index.
-   * @param key An integer representing the number of the key you want to get the name of.
+   * @name: key
+   * @description Returns the name of the nth key in the storage. This is a zero-based index.
+   * @public
+   * @param {number} key - An integer representing the number of the key you want to get the name of.
    * @returns {*}
    */
   key(key) {
@@ -457,10 +490,12 @@ class FallbackLocalStorage {
   }
 
   /**
-   * When passed one argument - return value by key.
-   * When passed two arguments - set value by key and return saved value.
-   * @param {*} args
-   * @returns {*}
+   * @name item
+   * @description Returns value at key. If a second argument is provided, it will be set as that key's value and
+   * returned.
+   * @public
+   * @param {...*} args - Key name and (optional) value to store at that key
+   * @returns {*} Value at the given key
    */
   item(...args) {
     if (!args.length || args.length > 2) {
@@ -474,8 +509,10 @@ class FallbackLocalStorage {
   }
 
   /**
-   * Returns the array of keys saved in storage.
-   * @returns {Array}
+   * @name keys
+   * @description Returns an array of keys saved in storage.
+   * @public
+   * @returns {Array.<string>} Key names
    */
   keys() {
     if (typeof this._storage.keys === "function") {
@@ -485,7 +522,9 @@ class FallbackLocalStorage {
   }
 
   /**
-   * Returns the array of values saved in storage.
+   * @name values
+   * @description Returns an array of values saved in storage.
+   * @public
    * @returns {Array}
    */
   values() {
@@ -505,8 +544,10 @@ class FallbackLocalStorage {
   }
 
   /**
-   * Returns an array of [key, value] pairs.
-   * @returns {Array.<*>}
+   * @name entries
+   * @description Returns an array of [key,value] pairs for all storage items.
+   * @public
+   * @returns {Array.<Object<string, *>>}
    */
   entries() {
     if (!this._serialize) {
@@ -530,9 +571,11 @@ class FallbackLocalStorage {
   }
 
   /**
-   * Executes a provided function once per array element.
-   * @param {Function} callback
-   * @param {Object=} thisArg
+   * @name forEach
+   * @description Executes a provided function once per array element.
+   * @public
+   * @param {Function} callback - Function applied to each stored value
+   * @param {Object=} thisArg - If no `this` arg is provided, `this` will be replaced with the global object
    */
   forEach(callback, thisArg) {
     const keys = this.keys();
@@ -549,8 +592,9 @@ class FallbackLocalStorage {
   }
 
   /**
-   * Returns an integer representing the number of data items stored in the object.
-   * @returns {Number}
+   * @name length
+   * @description Returns an integer representing the number of data items stored in the object.
+   * @returns {number}
    */
   get length() {
     return this.keys().length;
