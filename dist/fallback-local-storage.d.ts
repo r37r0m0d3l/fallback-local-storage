@@ -1,4 +1,4 @@
-export declare class FallbackLocalStorage {
+declare class FallbackLocalStorage {
   /**
    * @constructor
    * @public
@@ -17,7 +17,7 @@ export declare class FallbackLocalStorage {
   public setItem(key: string, value: any): void;
 }
 
-export declare class Serializer {
+declare class Serializer {
   /**
    * @constructor
    * @public
