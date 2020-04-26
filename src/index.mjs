@@ -53,7 +53,7 @@ function keyedToObject(keyed) {
  * Trying to parse or stringify JSON, do not throws errors
  * @class Serializer
  */
-class Serializer {
+export class Serializer {
   constructor(debug = false) {
     Object.defineProperty(this, "_debug", {
       value: Boolean(debug),
@@ -122,7 +122,7 @@ class Serializer {
  * A fallback interface imitation of the Web Storage API.
  * @class FallbackStorage
  */
-class FallbackStorage {
+export class FallbackStorage {
   constructor() {
     this._data = {};
   }
