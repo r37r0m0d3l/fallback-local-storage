@@ -4,12 +4,30 @@ import resolve from "@rollup/plugin-node-resolve";
 import rollupPluginTerser from "rollup-plugin-terser";
 
 const INPUT_NAME = "index.mjs";
-
-export const OUTPUT_NAME = "fallback-local-storage";
+const OUTPUT_NAME = "fallback-local-storage";
+const UMD_NAME = "FallbackLocalStorage";
 
 export default {
   input: `./src/${INPUT_NAME}`,
-  output: [],
+  output: [
+    {
+      file: `./dist/${OUTPUT_NAME}.cjs`,
+      format: "cjs",
+      sourcemap: true,
+    },
+    {
+      file: `./dist/${OUTPUT_NAME}.mjs`,
+      format: "es",
+      sourcemap: true,
+    },
+    {
+      file: `./dist/${OUTPUT_NAME}.js`,
+      format: "umd",
+      globals: {},
+      name: UMD_NAME,
+      sourcemap: true,
+    },
+  ],
   plugins: [
     babel({ babelrc: true }),
     resolve(),

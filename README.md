@@ -7,6 +7,7 @@ auto serialization that not included in `localStorage` by default.
 [![npm](https://badgen.net/npm/v/fallback-local-storage?&icon=npm&label=npm&color=DD3636)](https://github.com/r37r0m0d3l/fallback-local-storage)
 [![downloads](https://badgen.net/npm/dt/fallback-local-storage?&icon=terminal&label=downloads&color=009688)](https://github.com/r37r0m0d3l/fallback-local-storage)
 [![stars](https://badgen.net/github/stars/r37r0m0d3l/fallback-local-storage?&icon=github&label=stars&color=ffcc33)](https://github.com/r37r0m0d3l/fallback-local-storage)
+[![types](https://badgen.net/npm/types/fallback-local-storage?&icon=typescript&label=types&color=1E90FF)](https://github.com/r37r0m0d3l/fallback-local-storage/blob/master/dist/fallback-local-storage.d.ts)
 [![build](https://badgen.net/travis/r37r0m0d3l/fallback-local-storage?&icon=travis&label=build)](https://github.com/r37r0m0d3l/fallback-local-storage)
 [![lgtm](https://badgen.net/lgtm/grade/g/r37r0m0d3l/fallback-local-storage?&icon=lgtm&label=lgtm:js/ts&color=00C853&v=1.5.0)](https://github.com/r37r0m0d3l/fallback-local-storage)
 

@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.2.0
+
+-   ⚡️ TypeScript declarations updated
+
 ## 1.1.0
 
 -   ⚡️ Change default export format
