@@ -16,8 +16,8 @@
   "description": "Fallback for browser LocalStorage",
   "devDependencies": {
     "@babel/core": "7.14.8",
+    "@babel/plugin-proposal-private-methods": "7.14.5",
     "@babel/plugin-proposal-class-properties": "7.14.5",
-    "@babel/plugin-proposal-private-methods": "7.13.0",
     "@rollup/plugin-node-resolve": "13.0.4",
     "@babel/preset-env": "7.14.9",
     "@rollup/plugin-commonjs": "20.0.0",
